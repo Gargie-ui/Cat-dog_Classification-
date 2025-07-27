@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Image</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Upload an Image</h2>
+    <div class="upload-box">
+
+        <form id="upload-form" method="POST" action="/predict" enctype="multipart/form-data">
+            <div class="drop-area" id="drop-area">
+                <p>Drag or drop images here or click to select</p>
+                <input type="file" name="file" id="file-input" accept="image/*">
+            </div>
+            <button class="upload-btn" type="submit">Upload</button>
+        </form>
+
+        
+    </div>
+<div class="note">Try these sample images:</div>
+        <div class="sample-images">
+            <img src="/static/cat.webp" alt="Cat">
+            <img src="/static/dog.webp" alt="Dog">
+            <img src="/static/ham.webp" alt="Other">
+            <img src="/static/fish.jpg" alt="Other">
+        </div>
+    <script>
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+        const form = document.getElementById('upload-form');
+
+        // When file is selected via click
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                form.submit();
+            }
+        });
+
+        // Click on drag area triggers file input
+        dropArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle drag-and-drop
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.style.backgroundColor = "#dbf9ff3d";
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.style.backgroundColor = "";
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.style.backgroundColor = "";
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                form.submit(); // 🚀 Submit form automatically
+            }
+        });
+    </script>
+</body>
+</html>
